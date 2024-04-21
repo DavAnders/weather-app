@@ -33,6 +33,21 @@ class WeatherData {
   }
 }
 
+class ForecastData {
+  constructor(apiResponse) {
+    const { forecast } = apiResponse;
+    this.forecasts = forecast.forecastday.map((day) => ({
+      date: day.date,
+      maxTempC: day.day.maxtemp_c,
+      minTempC: day.day.mintemp_c,
+      maxTempF: day.day.maxtemp_f,
+      minTempF: day.day.mintemp_f,
+      conditionText: day.day.condition.text,
+      conditionIcon: `https:${day.day.condition.icon}`,
+    }));
+  }
+}
+
 async function getLocationWeather(location) {
   try {
     const locationSanitized = String(location).trim();
@@ -52,4 +67,22 @@ async function getLocationWeather(location) {
   }
 }
 
-export default getLocationWeather;
+async function getLocationForecast(location) {
+  try {
+    const locationSanitized = String(location).trim();
+    const response = await fetch(
+      `https://api.weatherapi.com/v1/forecast.json?key=${
+        import.meta.env.VITE_APP_WEATHER_API_KEY
+      }&q=${encodeURIComponent(locationSanitized)}`
+    );
+    if (!response.ok) {
+      throw new Error("Failed to fetch forecast: " + response.status);
+    }
+    const data = await response.json();
+    return new ForecastData(data);
+  } catch (error) {
+    console.error("Failed to fetch forecast", error);
+    return null;
+  }
+}
+export { getLocationWeather, getLocationForecast };
