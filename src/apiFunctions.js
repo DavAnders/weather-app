@@ -1,6 +1,6 @@
 class WeatherData {
   constructor(apiResponse) {
-    const { location, current } = apiResponse.query;
+    const { location, current } = apiResponse;
     this.name = location.name;
     this.region = location.region;
     this.country = location.country;

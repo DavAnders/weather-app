@@ -6,6 +6,22 @@
     <title>Weather App</title>
   </head>
   <body>
+    <header>
+      <h1>Weather App</h1>
+      <main>
+        <form id="weatherForm">
+          <input
+            type="text"
+            id="locationInput"
+            placeholder="Enter Location"
+            required
+          />
+          <button type="submit">Get Weather</button>
+        </form>
+        <div id="weatherDisplay"></div>
+        <div id="loading" style="visibility: hidden">Loading...</div>
+      </main>
+    </header>
     <script type="module" src="/src/index.js"></script>
   </body>
 </html>
